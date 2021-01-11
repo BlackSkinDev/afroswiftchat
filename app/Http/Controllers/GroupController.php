@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Group;
+use App\Events\NewGroupCreated;
+
+
 class GroupController extends Controller
 {
     public function getCreate(){
@@ -16,11 +20,19 @@ class GroupController extends Controller
         $this->validate($request,[
             "subject"=>'required'
         ]);
-        if (Auth::user()->groups()->create([
+
+        $group= Auth::user()->groups()->create([
             "name"=>$request['subject']
-        ])){
-            Session::flash('message','Group Created');
-            return back();
-        }
+        ]);
+
+        event(new NewGroupCreated($group));
+
+        Session::flash('message','Group Created');
+        return back();
+    }
+
+    public function getGroups(){
+        $groups=Group::all();
+        return $groups->toJson();
     }
 }

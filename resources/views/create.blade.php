@@ -1,33 +1,10 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Chat Rooms') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <div id="groups">
-                        @foreach($groups as $key => $group)
-                            <span>{{$group->name}}</span>
-                            <span class="ml-5"><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
-                            <hr>
-
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header"> {{Auth::user()->email}}, Create Chat Room Here</div>
+                <div class="card-header">{{ __('Welcome')  }}  {{Auth::user()->email}}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('post') }}">
@@ -67,40 +44,7 @@
                     </form>
                 </div>
             </div>
-       
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script src="{{ asset('js/app.js') }}" ></script>
-<script>
-
-const app = new Vue({
-    el: '#app',
-    data:{
-        groups:{!! $groups->toJson() !!}
-
-    },
-    mounted(){
-       
-        this.listen()
-    },
-    methods:{
-        
-        listen(){
-          Echo.private('new-group')
-            .listen('NewGroupCreated', (group)=>{
-                
-               $("#groups").append(
-                '<span>'+ group.name+ '</span><span class="ml-5"><button class="badge badge-success">Enter Group</button></span><hr>')
-                
-            })
-        },
-
-    }
-});
-
-</script>
 @endsection
