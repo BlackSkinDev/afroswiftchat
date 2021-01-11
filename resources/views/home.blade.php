@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header"> {{Auth::user()->email}}, Create Chat Room Here</div>
+                <div class="card-header"> <b>{{Auth::user()->name}}</b>, Create Chat Room Here</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('post') }}">

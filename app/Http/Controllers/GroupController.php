@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Group;
 use App\Events\NewGroupCreated;
-
+use App\Events\joinGroup;
 
 class GroupController extends Controller
 {
@@ -34,5 +34,18 @@ class GroupController extends Controller
     public function getGroups(){
         $groups=Group::all();
         return $groups->toJson();
+    }
+
+    public function join($roomId){
+
+        $group=Group::findorfail($roomId);
+        
+        $user= Auth::user();
+
+        event(new JoinGroup($user,$roomId));
+        
+        //broadcast(new NewComment($comment))->toOthers();
+
+        return view('group',['group'=>$group]);
     }
 }
