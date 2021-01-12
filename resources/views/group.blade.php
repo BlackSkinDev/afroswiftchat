@@ -10,18 +10,27 @@
                     <span>Group Subject : <b>{{$group->name}}</b></span>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" style="max-height:450px;overflow-y:auto;">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
+
+                <div id="messages">
+ 
+                </div>
+
+
                        
                 </div>
             </div>
             <div style="margin-top:20px;">
-                <textarea class="form-control" rows="3" name="body" placeholder="Send Message" id="messageBox"></textarea>
-                <button class="btn btn-success" style="margin-top:10px">Send</button>
+                <textarea class="form-control" rows="3" name="body" placeholder="Send Message" id="messageBox" v-model="messageBox"></textarea>
+                 <button class="btn btn-success" style="margin-top:10px" v-on:click="
+        sendMessage">Send</button>
+
+                
             </div>
 
         </div>
@@ -33,7 +42,6 @@
                 <div class="card-body">
                     <div class="alert alert-success" id="popUp" style="display: none;"></div>
                     <div class="alert alert-danger" id="popUp2" style="display: none;"></div>
-                    
                     <h4>Current users</h4>
                     <div id="users" > 
                         
@@ -45,6 +53,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 @endsection
 
 @section('scripts')
@@ -58,12 +70,45 @@ const app = new Vue({
         LoggedInUser:{!! Auth::check() ? Auth::user()->toJson(): 'null' !!},
         messages:{},
         messageBox:'',
+        newMessage:{}
     },
     mounted(){
-        
+        this.getMessages()
         this.joinRoom()
     },
     methods:{
+        getMessages(){
+            axios.get(`/group/${this.group.id}`)
+                
+                .then( (response)=>{
+                   
+                   this.messages=response.data
+
+                   for (var i = 0; i < this.messages.length; i++) {
+
+                        if (this.LoggedInUser.id == this.messages[i].user.id) {
+                        
+                             $("#messages").append(
+                                '<div class="message mt-3 "><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box"><span>'+this.messages[i].content+'</span></div></div>');
+                   
+                        }
+                   
+                        else{
+                        
+
+                            $("#messages").append(
+                                '<div class="message mt-3"><span class="ml-2">'+this.messages[i].user.name+'</span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box"><span>'+this.messages[i].content+'</span></div></div>');
+                        }  
+                   
+                    }
+
+                    
+                }) 
+                .catch( function (error){
+                  console.log(error);
+                })
+
+            },
 
         joinRoom(){
            Echo.join('chatroom.'+this.group.id)
@@ -108,8 +153,33 @@ const app = new Vue({
                 
             });
         },
+
+        sendMessage(){
+              axios.post(`/group/${this.group.id}`, {
+                 content:this.messageBox 
+              })  
+              .then( (response)=>{
+                 
+                 this.newMessage=response.data
+                 
+                 $("#messages").append(
+                    '<div class="message mt-3 "><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.newMessage.created_at+'</span><div class="box"><span>'+this.newMessage.content+'</span></div></div>');
+
+                  this.messageBox=''
+
+
+                })
+
+              .catch( function (error){
+                  console.log(error);
+              })
+              
+            }, 
+
     }
 });
+
+
 
 </script>
 @endsection

@@ -27,5 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/groups', 'GroupController@getGroups')->name('groups');
     Route::get('/join/{roomId}', 'GroupController@join')->name('join');
-    
+    Route::get('/group/{group}', 'GroupController@getMessages')->name('getMessage');
+    Route::post('/group/{group}', 'GroupController@sendMessage')->name('sendMessage');
+   
 });

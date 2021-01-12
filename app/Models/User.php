@@ -45,8 +45,8 @@ class User extends Authenticatable
         return $this->hasMany(Group::class);
 
     }
-    public function messages(){
-        return $this->hasMany(Message::class);
-    }
+    // public function messages(){
+    //     return $this->hasMany(Message::class);
+    // }
 
 }
