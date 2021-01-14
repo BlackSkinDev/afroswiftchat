@@ -48,7 +48,7 @@ class GroupController extends Controller
 
         event(new JoinGroup($user,$roomId));
         
-        //broadcast(new NewComment($comment))->toOthers();
+       
 
         return view('group',['group'=>$group]);
     }

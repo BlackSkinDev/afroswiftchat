@@ -22,8 +22,6 @@
                 </div>
             </div>
             <div style="margin-top:20px;">
-                <!-- <textarea class="form-control" rows="3" name="body" placeholder="Send Message" id="messageBox" v-model="messageBox"></textarea>
- -->
             <input type="text" name="body" class="form-control" placeholder="Send Message.." id="messageBox" v-model="messageBox" @keydown="sendTypingEvent">
 
                  <button class="btn btn-success" style="margin-top:10px" v-on:click="
@@ -178,22 +176,7 @@ const app = new Vue({
                 this.typingTimer= setTimeout( ()=>{
                     this.activeUser=false
                  },3000)
-                
-
-
-                // // var username= e.name
-
-                // var x= e.info.length+1
-
-                // if (x == 0) {
-                //     this.typing=  ' box is empty'
-                // }
-                // else if(x==1){
-                //     this.typing = 'only one letter'
-                // }
-                // else{
-                //     this.typing='more dan one letters'
-                // }
+               
                 
             });
 
@@ -228,14 +211,12 @@ const app = new Vue({
 
                  $("#messages").append(
                     '<div class="message mt-3" id="new' +this.newMessage.id+'"><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.newMessage.created_at+'</span><div class="box2"><span>'+this.newMessage.content+'</span></div></div>');
-                 var myDiv = document.getElementById("mainBody");
-                 myDiv.scrollTop = myDiv.scrollHeight;
+                      
+                    // scroll to last message
+                      var myDiv = document.getElementById("mainBody");
+                      myDiv.scrollTop = myDiv.scrollHeight;
 
-                  // $('.mainBody').animate({
-                  //       //scrollTop: $('.mainBody .message:last-child').position().top
-                  //       scrollTop: $('.mainBody #new'+this.newMessage.id).position().top
-                  // }, 'slow');
-
+               
     
                 })
 
@@ -252,7 +233,6 @@ const app = new Vue({
             Echo.join('chatroom.'+this.group.id)
                 .whisper('typing', {
                     name: this.LoggedInUser.name,
-                    // info: document.getElementById("messageBox").value
              });
                
         },
