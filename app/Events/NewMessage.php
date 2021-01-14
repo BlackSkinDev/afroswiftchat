@@ -10,18 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewMessage
+class NewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+
+    public $message;
+    
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($NewMessage)
     {
-        //
+        $this->message=$NewMessage;
     }
 
     /**
@@ -31,6 +34,20 @@ class NewMessage
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PresenceChannel('chatroom.'.$this->message->group->id);
     }
+
+    public function broadcastWith()
+    {
+      return [
+        'content' => $this->message->content,
+        'created_at' => $this->message->created_at,
+        'user' => [
+          'name' => $this->message->user->name
+         ]
+      ];
+    }
+
 }
+
+

@@ -59,14 +59,25 @@ class GroupController extends Controller
     }
 
     public function sendMessage(Request $request,Group $group){
-         $message = $group->messages()->create([
-            'content' => $request->content,
-            'user_id' => Auth::user()->id
-        ]);
+            
+                
+                $message = $group->messages()->create([
+                
+                'content' => $request->content,
+                
+                'user_id' => Auth::user()->id
+            
+            ]);
 
-        $NewMessage = Message::where('id', $message->id)->with('user')->first();
-        //broadcast(new NewComment($comment))->toOthers();
-        return $NewMessage->toJson();
+           
+            $NewMessage = Message::where('id', $message->id)->first();
+
+                        
+            broadcast(new NewMessage($NewMessage))->toOthers();
+            
+            return $NewMessage->toJson();
+            
+         
     }
 
 

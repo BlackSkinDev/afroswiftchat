@@ -10,12 +10,8 @@
                     <span>Group Subject : <b>{{$group->name}}</b></span>
                 </div>
 
-                <div class="card-body" style="max-height:450px;overflow-y:auto;">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                <div class="card-body mainBody" id="mainBody" style="max-height:450px;overflow-y:auto;">
+                    <center><span class="badge badge-pi ll" style="color: brown"  v-if="activeUser">@{{ activeUser }} is typing...</span></center>
 
                 <div id="messages">
  
@@ -26,9 +22,13 @@
                 </div>
             </div>
             <div style="margin-top:20px;">
-                <textarea class="form-control" rows="3" name="body" placeholder="Send Message" id="messageBox" v-model="messageBox"></textarea>
+                <!-- <textarea class="form-control" rows="3" name="body" placeholder="Send Message" id="messageBox" v-model="messageBox"></textarea>
+ -->
+            <input type="text" name="body" class="form-control" placeholder="Send Message.." id="messageBox" v-model="messageBox" @keydown="sendTypingEvent">
+
                  <button class="btn btn-success" style="margin-top:10px" v-on:click="
         sendMessage">Send</button>
+        <div id="error" style="color: red;display: none">Message cannot be empty</div>
 
                 
             </div>
@@ -70,7 +70,10 @@ const app = new Vue({
         LoggedInUser:{!! Auth::check() ? Auth::user()->toJson(): 'null' !!},
         messages:{},
         messageBox:'',
-        newMessage:{}
+        newMessage:{},
+        typing:'',
+        activeUser:false,
+        typingTimer:false
     },
     mounted(){
         this.getMessages()
@@ -89,7 +92,7 @@ const app = new Vue({
                         if (this.LoggedInUser.id == this.messages[i].user.id) {
                         
                              $("#messages").append(
-                                '<div class="message mt-3 "><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box"><span>'+this.messages[i].content+'</span></div></div>');
+                                '<div class="message mt-4 "><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box2"><span>'+this.messages[i].content+'</span></div></div>');
                    
                         }
                    
@@ -97,7 +100,7 @@ const app = new Vue({
                         
 
                             $("#messages").append(
-                                '<div class="message mt-3"><span class="ml-2">'+this.messages[i].user.name+'</span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box"><span>'+this.messages[i].content+'</span></div></div>');
+                                '<div class="message mt-4"><span class="ml-2">'+this.messages[i].user.name+'</span> <span style="color: #aaa;margin-left: 40px;"> '+this.messages[i].created_at+'</span><div class="box1"><span>'+this.messages[i].content+'</span></div></div>');
                         }  
                    
                     }
@@ -125,7 +128,6 @@ const app = new Vue({
                
              })
             .joining((user) => {
-                console.log(user.name+ " joined")
                 $("#users").append('<p id='+user.id+'>'+user.name+'</p>');
 
                 $("#popUp").text(user.name+ " Joined");
@@ -139,7 +141,6 @@ const app = new Vue({
                 }, 3000);
             })
             .leaving((user) => {
-                console.log(user.name + "left");
                 $("#"+user.id).remove();
                 $("#popUp2").text(user.name+ " Left");
 
@@ -151,30 +152,110 @@ const app = new Vue({
 
                 }, 3000);
                 
+            })
+            .listen('NewMessage', (message)=>{
+                 console.log(message)
+                $("#messages").append(
+                    '<div class="message mt-4"><span class="ml-2">'+message.user.name+'</span> <span style="color: #aaa;margin-left: 40px;"> '+message.created_at+'</span><div class="box1"><span>'+message.content+'</span></div></div>');
+                  
+                  
+                  var myDiv = document.getElementById("mainBody");
+                  myDiv.scrollTop = myDiv.scrollHeight;
+
+
+
+            })
+
+            .listenForWhisper('typing', (e) => {
+
+                //console.log(e.name)
+                this.activeUser=e.name
+
+                if (this.typingTimer) {
+                    clearTimeout(this.typingTimer)
+                }
+                
+                this.typingTimer= setTimeout( ()=>{
+                    this.activeUser=false
+                 },3000)
+                
+
+
+                // // var username= e.name
+
+                // var x= e.info.length+1
+
+                // if (x == 0) {
+                //     this.typing=  ' box is empty'
+                // }
+                // else if(x==1){
+                //     this.typing = 'only one letter'
+                // }
+                // else{
+                //     this.typing='more dan one letters'
+                // }
+                
             });
+
         },
 
         sendMessage(){
+            if (this.messageBox=='') {
+                 $( "#error" ).show(); 
+
+                setTimeout(function() {
+
+                    $( "#error" ).hide();
+
+                }, 2000);
+            }
+            else{
+
+            //calling send message endpoint
+
               axios.post(`/group/${this.group.id}`, {
                  content:this.messageBox 
               })  
               .then( (response)=>{
+
                  
-                 this.newMessage=response.data
+                    this.newMessage=response.data
+
+                   
+                 this.messageBox=''
                  
+                 
+
                  $("#messages").append(
-                    '<div class="message mt-3 "><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.newMessage.created_at+'</span><div class="box"><span>'+this.newMessage.content+'</span></div></div>');
+                    '<div class="message mt-3" id="new' +this.newMessage.id+'"><span class="ml-2"><b>You</b></span> <span style="color: #aaa;margin-left: 40px;"> '+this.newMessage.created_at+'</span><div class="box2"><span>'+this.newMessage.content+'</span></div></div>');
+                 var myDiv = document.getElementById("mainBody");
+                 myDiv.scrollTop = myDiv.scrollHeight;
 
-                  this.messageBox=''
+                  // $('.mainBody').animate({
+                  //       //scrollTop: $('.mainBody .message:last-child').position().top
+                  //       scrollTop: $('.mainBody #new'+this.newMessage.id).position().top
+                  // }, 'slow');
 
-
+    
                 })
 
               .catch( function (error){
                   console.log(error);
               })
-              
-            }, 
+
+          }
+        //calling endpoint ends                
+                           
+        },
+
+        sendTypingEvent(){
+            Echo.join('chatroom.'+this.group.id)
+                .whisper('typing', {
+                    name: this.LoggedInUser.name,
+                    // info: document.getElementById("messageBox").value
+             });
+               
+        },
 
     }
 });
