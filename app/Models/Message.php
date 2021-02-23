@@ -10,6 +10,8 @@ class Message extends Model
 {
     use HasFactory;
 
+
+
     public function user(){
         return $this->belongsTo(User::class);
 
@@ -20,14 +22,26 @@ class Message extends Model
         return $this->belongsTo(Group::class);
     }
 
+
+
     public function getCreatedAtAttribute($value){
-    	return Carbon::parse($value)->diffForHumans();
-    }
+     	//return Carbon::parse($value)->diffForHumans(); //diffInMinutes()
+        //return Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('Y-m-d H:i:s');
+        return Carbon::parse($value)->format('H:i a');
+           
+     }
+
 
     protected $fillable = [
         'content',
         'group_id',
         'user_id',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
 

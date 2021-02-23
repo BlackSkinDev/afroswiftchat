@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
+
 @section('content')
+
+
 <div class="container">
-    <div class="row justify-content-center">
+
+    <h3 style="color: white">Welcome to SwiftChat....Over {{$users}} users</h3>
+    <div class="row justify-content-center mt-5">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">{{ __('Chat Rooms') }}</div>
+                <div class="card-header" >{{ __('Chat Rooms Available on SwiftChat') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,27 +19,48 @@
                         </div>
                     @endif
                     <div id="groups">
-                        @foreach($groups as $key => $group)
-                            <span>{{$group->name}}</span>
-                            <span class="ml-5"><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
-                            <hr>
+                        @if( count($groups)<1)
+                            <span id='noGroup'>
+                            <h4 class="animate__animated animate__bounce">Create a group to get started..</h4></span>
 
-                        @endforeach
+                        @else
+                            @foreach($groups as $key => $group)
+                            
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <span>{{$group->name}}</span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <span class="ml-5"><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
+                                
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+
+                            
+                            @endforeach
+
+                        @endif
+                        
+
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col2">
             <div class="card">
-                <div class="card-header"> <b>{{Auth::user()->name}}</b>, Create Chat Room Here</div>
+                <div class="card-header"> <b>{{Auth::user()->name}}</b>, Create chat room and invite friend via the link</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('post') }}">
                         @csrf
                         @if(Session::has('message'))
                         <center>
-                            <div class="alert alert-success" style="width: 400px">
+                            <div class="alert alert-success" style="width: 300px">
                                 {{Session::get('message') }}
                             </div>
                         </center>
@@ -93,8 +119,10 @@ const app = new Vue({
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
                 
+                $("#noGroup").remove()
+
                $("#groups").append(
-                '<span>'+ group.name+ '</span><span class="ml-5"><button class="badge badge-success">Enter Group</button></span><hr>')
+                '<span>'+ group.name+ '</span><span class="ml-5"><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span><hr>')
                 
             })
         },

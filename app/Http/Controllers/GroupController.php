@@ -11,6 +11,7 @@ use App\Models\Group;
 use App\Events\NewGroupCreated;
 use App\Events\joinGroup;
 use App\Events\NewMessage;
+use Carbon\Carbon;
 
 class GroupController extends Controller
 {
@@ -34,50 +35,54 @@ class GroupController extends Controller
     }
 
     public function getGroups(){
-        
+
         $groups=Group::all();
-        
         return $groups->toJson();
     }
 
     public function join($roomId){
 
         $group=Group::findorfail($roomId);
-        
+
         $user= Auth::user();
 
         event(new JoinGroup($user,$roomId));
-        
-       
+
+
 
         return view('group',['group'=>$group]);
     }
 
     public function getMessages(Group $group){
-       
-       return response()->json($group->messages()->with('user')->get());
+        $messages= $group->messages()->with('user')->orderBy('updated_at')->get()->groupBy(function($data){
+            return Carbon::parse($data->updated_at)->format('d, F Y');
+            //return Carbon::parse($data->created_at)->format('M Y');
+
+        });
+        return $messages->toJson();
+       //return response()->json($group->messages()->with('user')->get());
     }
 
     public function sendMessage(Request $request,Group $group){
-            
-                
+
+
                 $message = $group->messages()->create([
-                
+
                 'content' => $request->content,
-                
+
                 'user_id' => Auth::user()->id
-            
+
             ]);
 
-           
+
             $NewMessage = Message::where('id', $message->id)->first();
 
-                        
+
             broadcast(new NewMessage($NewMessage))->toOthers();
-            
+
             return $NewMessage->toJson();
-            
-         
+
+
     }
 
 

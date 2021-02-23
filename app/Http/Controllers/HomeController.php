@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Group;
+use App\Models\User;
+
 class HomeController extends Controller
 {
     /**
@@ -26,6 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $groups= Group::get();
-        return view('home',['groups'=>$groups]);
+        $users=(User::all()->count());
+        return view('home',['groups'=>$groups,'users'=>$users]);
     }
 }

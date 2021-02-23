@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Auth;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -45,8 +45,10 @@ class User extends Authenticatable
         return $this->hasMany(Group::class);
 
     }
-    // public function messages(){
-    //     return $this->hasMany(Message::class);
-    // }
+    public function TotalMessageSent($groupId){
+        $totalMessage=Message::where('group_id','=',$groupId)
+        ->where('user_id','=',Auth::user()->id)->get()->count();
+        return $totalMessage;
+    }
 
 }

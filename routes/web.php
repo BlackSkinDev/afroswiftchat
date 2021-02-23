@@ -29,5 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/join/{roomId}', 'GroupController@join')->name('join');
     Route::get('/group/{group}', 'GroupController@getMessages')->name('getMessage');
     Route::post('/group/{group}', 'GroupController@sendMessage')->name('sendMessage');
-   
 });
+
+Route::post('/signin','HomeController@login');

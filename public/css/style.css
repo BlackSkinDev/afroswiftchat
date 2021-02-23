@@ -17,4 +17,37 @@
 	padding:7px;
 }
 
+.me{
+    position: relative;
+    left: 350px;
+}
+
+#messages{
+    overflow-x: hidden;
+}
+
+
+
+
+@media only screen 
+        and (device-width:414px)
+        and (device-height:736px)
+        and (-webkit-device-pixel-ratio:3){
+
+
+       
+      }
+
+
+
+       body{
+        background-color:darkslategrey;
+       }
+
+@media only screen and (max-width: 768px) {
+ 	 .col2{
+            margin-top: 50px;
+       }
+
+}
 
