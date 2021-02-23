@@ -49,5 +49,9 @@
             margin-top: 50px;
        }
 
+      .me{
+    		position: relative;
+    		left: 210px;
+} 
 }
 
