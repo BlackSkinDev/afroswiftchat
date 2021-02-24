@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
 use App\Models\Group;
 use App\Events\NewGroupCreated;
-use App\Events\joinGroup;
+use App\Events\JoinGroup;
 use App\Events\NewMessage;
 use Carbon\Carbon;
 
