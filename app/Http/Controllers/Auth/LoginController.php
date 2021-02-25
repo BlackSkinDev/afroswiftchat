@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserEmail;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Mail;
 use Socialite;
 use App\Models\User;
 use Auth;
@@ -44,21 +46,21 @@ class LoginController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
-   
+
     public function handleGoogleCallback()
     {
         try {
-  
+
             $user = Socialite::driver('google')->user();
-   
+
             $finduser = User::where('google_id', $user->id)->first();
-   
+
             if($finduser){
-   
+
                 Auth::login($finduser);
-  
+
                  return redirect('/home');
-   
+
             }else{
                 $newUser = User::create([
                     'name' => $user->name,
@@ -67,12 +69,14 @@ class LoginController extends Controller
                     'password' => bcrypt('123456dummy'),
 
                 ]);
-  
+
+                //Mail::to($user->email)->queue(new UserEmail($user->name));
+
                 Auth::login($newUser);
-   
+
                 return redirect('/home');
             }
-  
+
         } catch (Exception $e) {
             return redirect('/google');
         }
