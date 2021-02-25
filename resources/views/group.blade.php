@@ -7,8 +7,10 @@
             <div class="card">
 
                 <div class="card-header">
-                    <span><b>Chat</b></span>
-
+                    <div>
+                        <b>Chat</b>
+                        <a href="{{route('home')}}"><i class="fa fa-home fa-2x" style="float: right;color: black"></i></a>
+                    </div>
                     <center><span id="IsTyping" class="badge badge-pill" style="color: brown;"  v-if="activeUser">@{{ activeUser }} is typing...</span></center>
                 </div>
 
@@ -41,6 +43,7 @@
                 <div class="card-body">
                     <div class="alert alert-success" id="popUp" style="display: none;"></div>
                     <div class="alert alert-danger" id="popUp2" style="display: none;"></div>
+                    <div class="alert alert-secondary" id="popUp3" style="display: none;"></div>
                     <div id="users" >
 
                     </div>
@@ -65,6 +68,8 @@
            <b> Group Info</b>
         </div>
           <ul class="list-group list-group-flush">
+             <li class="list-group-item"><b title="Total messages sent to this group">Group Creator</b>:<span id="totalmsg"> {{$group->user->name}}</span></li>
+           
             <li class="list-group-item">Date created: {{ date("jS F Y",strtotime($group->created_at))}}</li>
             <li class="list-group-item"><b title="Total messages sent to this group">Total Messages</b>:<span id="totalmsg"> {{$group->messages->count()}}</span></li>
             <li class="list-group-item"><b title="Messages you have sent to this group">Messages sent</b>: <span id="mymsg">{{Auth::user()->TotalMessageSent($group->id)}}</li>
@@ -99,6 +104,16 @@
               aux.focus();
               document.execCommand("copy");
               document.body.removeChild(aux);
+               
+               $("#popUp3").text("Link Copied");
+
+                $( "#popUp3" ).show();
+
+                setTimeout(function() {
+
+                    $( "#popUp3" ).hide();
+
+                }, 3000);
             }
 
 
@@ -164,10 +179,10 @@ const app = new Vue({
                 console.log("all users")
                  for (var i = 0; i < user.length; i++) {
                     if (this.LoggedInUser.id==user[i].id) {
-                        $("#users").append('<p id='+user[i].id+'><b>You: </b>'+user[i].name+'</p>');
+                        $("#users").append('<p id='+user[i].id+'><i class="fa fa-user fa-1x"><b class="ml-2">'+user[i].name+'</b></p>');
                     }
                     else{
-                        $("#users").append('<p id='+user[i].id+'>'+user[i].name+'</p>');
+                        $("#users").append('<p id='+user[i].id+'><i class="fa fa-user fa-1x"><b class="ml-2" >'+user[i].name+'</b></p>');
                     }
 
                 }
@@ -308,3 +323,4 @@ const app = new Vue({
 
 </script>
 @endsection
+

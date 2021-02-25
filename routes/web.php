@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+	//Alert::alert('Title', 'Message', 'Type');
     return view('welcome');
 });
 
@@ -32,3 +33,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::post('/signin','HomeController@login');
+
+
+    
+Route::get('/login/google', 'Auth\LoginController@redirectToGoogle')->name('google');
+Route::get('google/callback', 'Auth\LoginController@handleGoogleCallback');

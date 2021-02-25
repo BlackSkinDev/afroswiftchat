@@ -30,14 +30,25 @@
 
 
 @media only screen 
-        and (device-width:414px)
-        and (device-height:736px)
+        and (device-width:375px)
+        and (device-height:667px)
+        and (-webkit-device-pixel-ratio:3){
+
+          body{
+            background-color: red;
+          }
+       
+      }
+
+
+@media only screen 
+        and (device-width:375px)
+        and (device-height:812px)
         and (-webkit-device-pixel-ratio:3){
 
 
        
       }
-
 
 
        body{
@@ -51,7 +62,7 @@
 
       .me{
     		position: relative;
-    		left: 210px;
+    		left: 160px;
 } 
 }
 

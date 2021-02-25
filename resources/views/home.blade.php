@@ -33,7 +33,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <span class="ml-5"><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
+                                        <span><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
                                 
                                     </div>
                                     
@@ -122,7 +122,7 @@ const app = new Vue({
                 $("#noGroup").remove()
 
                $("#groups").append(
-                '<span>'+ group.name+ '</span><span class="ml-5"><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span><hr>')
+                '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
                 
             })
         },

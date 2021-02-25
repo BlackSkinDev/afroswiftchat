@@ -73,6 +73,11 @@
 
                             </div>
                         </div>
+                        <div class="register">
+                                <p>
+                                    <a href="{{route('google')}}" class="btn btn-warning">Sign In with Google</a>
+                                 </p>
+                            </div>
                     </form>
                             <div class="register">
                                 <p>Don't have an account? <a href="/register">Create an account</a></p>

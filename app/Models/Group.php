@@ -9,7 +9,7 @@ class Group extends Model
 {
     use HasFactory;
 
-    public function creator(){
+    public function user(){
         return $this->belongsTo(User::class);
 
     }

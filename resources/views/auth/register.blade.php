@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Login | SwiftChat</title>
+        <title>Register | SwiftChat</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,9 @@
         <link rel="stylesheet" href="../plugins/perfect-scrollbar/css/perfect-scrollbar.css">
         <link rel="stylesheet" href="../dist/css/theme.min.css">
         <script src="../src/js/vendor/modernizr-2.8.3.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <body>
@@ -95,6 +98,11 @@
                                 </button>
                             </div>
                         </div>
+                         <div class="register">
+                                <p>
+                                    <a href="{{route('google')}}" class="btn btn-warning">Sign In with Google</a>
+                                 </p>
+                            </div>
                     </form>
                             <div class="register">
                                 <p>Already have an account? <a href="/login">Sign in</a></p>
