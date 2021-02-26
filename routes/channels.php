@@ -22,6 +22,11 @@ Broadcast::channel('new-group', function ($user) {
     return true;
 });
 
+
+Broadcast::channel('delete-group', function ($user) {
+    return true;
+});
+
 Broadcast::channel('chatroom.{roomId}', function ($user,$roomId) {
     return ['id'=>$user->id, 'name'=>$user->name];;
 });
