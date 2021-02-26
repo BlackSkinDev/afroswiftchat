@@ -98,7 +98,7 @@ class GroupController extends Controller
 
         $group->delete();
 
-        return true;        
+        return back();        
     
     }
 
