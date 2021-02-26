@@ -98,12 +98,15 @@ class GroupController extends Controller
 
         $group->delete();
 
-         $totalGroup=Group::get()->count();
-        event(new DeleteGroup($group,$totalGroup));
+        event(new DeleteGroup($group));
 
 
         return true;        
     
+    }
+
+    public function test(){
+        return Group::get()->count();
     }
 
 

@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::post('/signin','HomeController@login');
 
-
+Route::get('/test','GroupController@test');
 
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle')->name('google');
 Route::get('google/callback', 'Auth\LoginController@handleGoogleCallback');
