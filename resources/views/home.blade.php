@@ -123,7 +123,7 @@ const app = new Vue({
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
 
-                $("#noGroup").remove()
+                $("#noGroup").hide()
 
                $("#groups").append(
                 '<div id="group' +group.id+ '"><div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr></div>')
@@ -131,9 +131,13 @@ const app = new Vue({
             })
             .listen('DeleteGroup', (group)=>{
 
-                 $("#group"+group.id).remove()
-                 console.log("a group deleted")
+                if (group.totalGroup==0) {
+                    $("#noGroup").show()
 
+                }
+                 $("#group"+group.id).remove()
+
+                 console.log(group)
             })
         },
 
@@ -142,9 +146,9 @@ const app = new Vue({
             axios.get(`/deletegroup/${this.group}`)
 
                 .then( (response)=>{
-
-                    $("#group"+x).remove()
-
+                    console.log("delete")
+                    // console.log(response.data)
+                   
 
                 })
                 .catch( function (error){

@@ -92,13 +92,16 @@ class GroupController extends Controller
             abort(403);
         }
 
-        broadcast(new DeleteGroup($group))->toOthers();
+        $totalGroup=Group::get()->count();
+
+        event(new DeleteGroup($group,$totalGroup));
+
 
 
         $group->delete();
 
-        
-        return true;
+        return true;        
+    
     }
 
 

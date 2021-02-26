@@ -20,9 +20,12 @@ class DeleteGroup implements ShouldBroadcast
      * @return void
      */
     public $group;
-    public function __construct($group)
+    public $totalGroup;
+
+    public function __construct($group,$totalGroup)
     {
         $this->group=$group;
+        $this->totalGroup=$totalGroup;
     }
 
     /**
@@ -39,6 +42,7 @@ class DeleteGroup implements ShouldBroadcast
     {
         return [
             'id' => $this->group->id,
+            'totalGroup'=>$this->totalGroup,
         ];
     }
 }
