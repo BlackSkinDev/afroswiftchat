@@ -32,7 +32,7 @@ class DeleteGroup implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-       return new PrivateChannel('delete-group');
+       return new PrivateChannel('new-group');
 
     }
     public function broadcastWith()

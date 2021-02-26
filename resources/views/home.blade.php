@@ -116,7 +116,6 @@ const app = new Vue({
     mounted(){
 
         this.listen()
-        this.delete()
     },
     methods:{
 
@@ -130,18 +129,12 @@ const app = new Vue({
                 '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
 
             })
-
-        },
-
-        delete(){
-
-           Echo.private('delete-group')
             .listen('DeleteGroup', (group)=>{
 
                  $("#group"+group.id).remove()
+                 console.log("a group deleted")
 
             })
-
         },
 
         deleteGroup(x){
