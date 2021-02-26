@@ -131,13 +131,8 @@ const app = new Vue({
             })
             .listen('DeleteGroup', (group)=>{
 
-                if (group.totalGroup==0) {
-                    $("#noGroup").show()
-
-                }
                  $("#group"+group.id).remove()
-
-                 console.log(group)
+                 
             })
         },
 
@@ -146,8 +141,6 @@ const app = new Vue({
             axios.get(`/deletegroup/${this.group}`)
 
                 .then( (response)=>{
-                    console.log("delete")
-                    // console.log(response.data)
                    
 
                 })

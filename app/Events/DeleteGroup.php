@@ -9,8 +9,6 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Group;
-
 
 class DeleteGroup implements ShouldBroadcast
 {
@@ -22,12 +20,9 @@ class DeleteGroup implements ShouldBroadcast
      * @return void
      */
     public $group;
-    public $totalGroup;
-
     public function __construct($group)
     {
         $this->group=$group;
-        $this->totalGroup=Group::get()->count();
     }
 
     /**
@@ -44,7 +39,6 @@ class DeleteGroup implements ShouldBroadcast
     {
         return [
             'id' => $this->group->id,
-            'totalGroup'=>$this->totalGroup,
         ];
     }
 }
