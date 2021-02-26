@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DeleteGroup;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,18 @@ class GroupController extends Controller
 
 
     }
+
+    public  function delete(Group  $group){
+
+        if (Auth::user()->cannot('delete', $group)) {
+            abort(403);
+        }
+
+        $group->delete();
+        
+        return true;
+    }
+
 
 
 }

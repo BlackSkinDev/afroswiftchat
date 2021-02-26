@@ -25,7 +25,7 @@
 
                         @else
                             @foreach($groups as $key => $group)
-                            
+
                                 <div class="row">
 
                                     <div class="col-md-6">
@@ -34,17 +34,18 @@
 
                                     <div class="col-md-6">
                                         <span><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
-                                
+                                        <a href="{{route('deletegroup',$group->id)}}" style="color: black"  v-on:click="deleteGroup"><span class="ml-5"><i class="fa fa-remove">&nbsp<b>Remove</b></i></span></a>
+
                                     </div>
-                                    
+
                                 </div>
                                 <hr>
 
-                            
+
                             @endforeach
 
                         @endif
-                        
+
 
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                     </form>
                 </div>
             </div>
-       
+
         </div>
     </div>
 </div>
@@ -110,22 +111,30 @@ const app = new Vue({
 
     },
     mounted(){
-       
+
         this.listen()
     },
     methods:{
-        
+
         listen(){
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
-                
+
+
+
                 $("#noGroup").remove()
 
-               $("#groups").append(
-                '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
-                
+               // $("#groups").append(
+               //  '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
+
+                 
+
             })
         },
+
+        deleteGroup(){
+            alert("hey")
+        }
 
     }
 });

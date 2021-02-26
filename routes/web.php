@@ -30,11 +30,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/join/{roomId}', 'GroupController@join')->name('join');
     Route::get('/group/{group}', 'GroupController@getMessages')->name('getMessage');
     Route::post('/group/{group}', 'GroupController@sendMessage')->name('sendMessage');
+    Route::get('/deletegroup/{group}', 'GroupController@delete')->name('deletegroup');
 });
 
 Route::post('/signin','HomeController@login');
 
 
-    
+
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle')->name('google');
 Route::get('google/callback', 'Auth\LoginController@handleGoogleCallback');
