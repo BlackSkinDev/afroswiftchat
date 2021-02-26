@@ -26,6 +26,7 @@
                         @else
                             @foreach($groups as $key => $group)
 
+                              <div id="group{{$group->id}}">
                                 <div class="row">
 
                                     <div class="col-md-6">
@@ -34,12 +35,14 @@
 
                                     <div class="col-md-6">
                                         <span><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
-                                        <a href="{{route('deletegroup',$group->id)}}" style="color: black"  v-on:click="deleteGroup"><span class="ml-5"><i class="fa fa-remove">&nbsp<b>Remove</b></i></span></a>
-
+                                        @can('delete',$group)
+                                        <a href="#" style="color: black"  v-on:click="deleteGroup({{$group->id}})"><span class="ml-5"><i class="fa fa-remove">&nbsp<b>Remove</b></i></span></a>
+                                        @endcan
                                     </div>
 
                                 </div>
                                 <hr>
+                              </div>
 
 
                             @endforeach
@@ -107,8 +110,8 @@
 const app = new Vue({
     el: '#app',
     data:{
-        groups:{!! $groups->toJson() !!}
-
+        groups:{!! $groups->toJson() !!},
+        group:{},
     },
     mounted(){
 
@@ -120,21 +123,29 @@ const app = new Vue({
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
 
-
-
                 $("#noGroup").remove()
 
                $("#groups").append(
                 '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
 
-                 
-
             })
         },
 
-        deleteGroup(){
-            alert("hey")
-        }
+        deleteGroup(x){
+            this.group=x
+            axios.get(`/deletegroup/${this.group}`)
+
+                .then( (response)=>{
+
+                    $("#group"+x).remove()
+
+
+                })
+                .catch( function (error){
+                    console.log(error);
+                })
+
+        },
 
     }
 });
