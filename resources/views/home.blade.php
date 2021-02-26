@@ -131,8 +131,14 @@ const app = new Vue({
             })
             .listen('DeleteGroup', (group)=>{
 
-                 $("#group"+group.id).remove()
-                 
+                
+                $("#group"+group.id).remove()
+                                 
+                if (! $('#groups').children().length > 0 ) {
+                      $("#noGroup").show()
+
+                }
+
             })
         },
 
