@@ -124,8 +124,8 @@ const app = new Vue({
 
                 $("#noGroup").remove()
 
-               // $("#groups").append(
-               //  '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
+               $("#groups").append(
+                '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
 
                  
 
