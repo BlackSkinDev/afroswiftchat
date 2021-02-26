@@ -12,6 +12,7 @@ use App\Models\Group;
 use App\Events\NewGroupCreated;
 use App\Events\JoinGroup;
 use App\Events\NewMessage;
+use App\Events\DeleteGroup;
 use Carbon\Carbon;
 
 class GroupController extends Controller
@@ -92,7 +93,11 @@ class GroupController extends Controller
             abort(403);
         }
 
+        broadcast(new DeleteGroup($group))->toOthers();
+
+
         $group->delete();
+
         
         return true;
     }

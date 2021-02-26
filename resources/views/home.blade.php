@@ -129,6 +129,11 @@ const app = new Vue({
                 '<div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr>')
 
             })
+            .listen('DeleteGroup', (group)=>{
+
+                 $("#group"+group.id).remove()
+
+            })
         },
 
         deleteGroup(x){
