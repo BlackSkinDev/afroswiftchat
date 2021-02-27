@@ -68,7 +68,7 @@
            <b> Group Info</b>
         </div>
           <ul class="list-group list-group-flush">
-             <li class="list-group-item"><b title="Total messages sent to this group">Group Creator</b>:<span id="totalmsg"> {{$group->user->name}}</span></li>
+             <li class="list-group-item"><b title="Total messages sent to this group">Group Creator</b>:<span> {{$group->user->name}}</span></li>
            
             <li class="list-group-item">Date created: {{ date("jS F Y",strtotime($group->created_at))}}</li>
             <li class="list-group-item"><b title="Total messages sent to this group">Total Messages</b>:<span id="totalmsg"> {{$group->messages->count()}}</span></li>

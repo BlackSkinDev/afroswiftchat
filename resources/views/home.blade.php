@@ -18,6 +18,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <div class="alert alert-danger" id="popUp2" style="width: 50%;display: none"></div>
+                    
                     <div id="groups">
                         @if( count($groups)<1)
                             <span id='noGroup'>
@@ -131,9 +133,17 @@ const app = new Vue({
             })
             .listen('DeleteGroup', (group)=>{
 
-                
+                $("#group"+group.id).remove()
+                $("#popUp2").text('Group <b>'+group.name+ " </b>deleted!");
 
-                 $("#group"+group.id).remove()
+                $( "#popUp2" ).show();
+
+                setTimeout(function() {
+
+                    $( "#popUp2" ).hide();
+
+                }, 3000);
+
                  
             })
         },
