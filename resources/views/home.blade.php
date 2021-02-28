@@ -134,7 +134,7 @@ const app = new Vue({
             .listen('DeleteGroup', (group)=>{
 
                  $("#group"+group.id).remove()
-                 $("#popUp2").text('<b>Group '+group.name+ " </b> deleted!");
+                 $("#popUp2").text('Group '+group.name+ " deleted !");
 
                  $( "#popUp2" ).show();
 
