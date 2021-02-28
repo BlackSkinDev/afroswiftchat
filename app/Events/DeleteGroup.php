@@ -39,7 +39,7 @@ class DeleteGroup implements ShouldBroadcast
     {
         return [
             'id' => $this->group->id,
-            'name'=>$group->name,
+            'name'=>$this->group->name,
         ];
     }
 }
