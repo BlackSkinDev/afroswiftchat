@@ -133,7 +133,17 @@ const app = new Vue({
             })
             .listen('DeleteGroup', (group)=>{
 
-                $("#group"+group.id).remove()
+                 $("#group"+group.id).remove()
+                 $("#popUp2").text('Group <b>'+group.name+ " </b>deleted!");
+
+                 $( "#popUp2" ).show();
+
+                    setTimeout(function() {
+
+                $( "#popUp2" ).hide();
+
+                }, 3000);
+
                  
             })
         },

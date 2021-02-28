@@ -41,13 +41,4 @@ Route::get('/login/google', 'Auth\LoginController@redirectToGoogle')->name('goog
 Route::get('google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
-  // $("#group"+group.id).remove()
-  //               $("#popUp2").text('Group <b>'+group.name+ " </b>deleted!");
-
-  //               $( "#popUp2" ).show();
-
-  //               setTimeout(function() {
-
-  //                   $( "#popUp2" ).hide();
-
-  //               }, 3000);
+ 
