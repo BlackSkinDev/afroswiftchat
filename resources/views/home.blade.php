@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header" >{{ __('Chat Rooms Available on SwiftChat') }}</div>
 
-                <div class="card-body">
+                <div class="card-body" style="max-height:450px;overflow-y: auto;" id="all">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -20,7 +20,7 @@
                     @endif
                     <div class="alert alert-danger" id="popUp2" style="width: 50%;display: none"></div>
                     
-                    <div id="groups">
+                    <div id="groups" >
                         @if( count($groups)<1)
                             <span id='noGroup'>
                             <h4 class="animate__animated animate__bounce">Create a group to get started..</h4></span>
@@ -118,6 +118,7 @@ const app = new Vue({
     mounted(){
 
         this.listen()
+        this.scroll()
     },
     methods:{
 
@@ -129,6 +130,7 @@ const app = new Vue({
 
                $("#groups").append(
                 '<div id="group' +group.id+ '"><div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr></div>')
+
 
             })
             .listen('DeleteGroup', (group)=>{
@@ -161,6 +163,11 @@ const app = new Vue({
                 })
 
         },
+
+        scroll(){
+            var myDiv = document.getElementById("all");
+            myDiv.scrollTop = myDiv.scrollHeight;
+        }
 
     }
 });

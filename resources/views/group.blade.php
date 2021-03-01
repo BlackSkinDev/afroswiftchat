@@ -14,8 +14,7 @@
                     <center><span id="IsTyping" class="badge badge-pill" style="color: brown;"  v-if="activeUser">@{{ activeUser }} is typing...</span></center>
                 </div>
 
-                <div class="card-body mainBody visible-xs-block" id="mainBody" style="max-height:450px;overflow-y:auto;background:url('/img/wall3.jpg');background-size: cover">
-
+                <div class="card-body mainBody visible-xs-block" id="mainBody" style="max-height:450px;overflow-y:auto;background:url('/img/bg.png');background-size: cover">
                 <div id="messages">
 
                 </div>
@@ -146,7 +145,7 @@ const app = new Vue({
                         const messageDate= Object.keys(this.messages)[i];
 
                         const dateMessages=this.messages[messageDate];
-
+                        const colors= ['purple','tomato','yellow','blue','pink']
                         $("#messages").append('<center><span style="font-size:12px;color:white"><b>'+ messageDate +'</b></span></span')
 
                         for (let j=0; j< dateMessages.length;j++){
@@ -156,8 +155,10 @@ const app = new Vue({
                                 '<div class="message mt-3 me "><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box2"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
                             }
                             else{
+                                var color = colors[Math.floor(Math.random() * colors.length)];
+
                                 $("#messages").append(
-                                '<div class="message mt-3"><span style="color:#00FFFF" class="ml-2">'+dateMessages[j].user.name+'</span> <span style="color: #F0FFF0;font-size:12px;margin-left:25px"> '+dateMessages[j].created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
+                                '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span> <span style="color: #F0FFF0;font-size:12px;margin-left:25px"> '+dateMessages[j].created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
                                 
                             }
                             $("#messages").append("<div class='mt-2'></div>")
@@ -217,9 +218,10 @@ const app = new Vue({
 
             })
             .listen('NewMessage', (message)=>{
-                 console.log(message)
-                $("#messages").append(
-                    '<div class="message mt-4"><span style="color:#FFFAF0" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
+                const colors= ['purple','tomato','yellow','blue','pink']
+                  var color = colors[Math.floor(Math.random() * colors.length)];
+                  $("#messages").append(
+                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
 
                     var mymsgspan= $("#totalmsg").text()
                     newmsgtotal= Number(mymsgspan)+1
