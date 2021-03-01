@@ -65,13 +65,6 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('post') }}">
                         @csrf
-                        @if(Session::has('message'))
-                        <center>
-                            <div class="alert alert-success" style="width: 300px">
-                                {{Session::get('message') }}
-                            </div>
-                        </center>
-                        @endif
 
 
                         <div class="form-group row">
