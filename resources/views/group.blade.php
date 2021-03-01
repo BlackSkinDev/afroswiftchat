@@ -15,6 +15,7 @@
                 </div>
 
                 <div class="card-body mainBody visible-xs-block" id="mainBody" style="max-height:450px;overflow-y:auto;background:url('/img/bg.png');background-size: cover">
+
                 <div id="messages">
 
                 </div>

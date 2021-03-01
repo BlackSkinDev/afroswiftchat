@@ -19,6 +19,7 @@
                         </div>
                     @endif
                     <div class="alert alert-danger" id="popUp2" style="width: 50%;display: none"></div>
+                     <div class="alert alert-success" id="popUp" style="display: none;"></
                     
                     <div id="groups" >
                         @if( count($groups)<1)
@@ -131,12 +132,22 @@ const app = new Vue({
                $("#groups").append(
                 '<div id="group' +group.id+ '"><div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr></div>')
 
+               $("#popUp").text('Group "' +group.name+ '" Created');
+
+                $( "#popUp" ).show();
+
+                setTimeout(function() {
+
+                    $( "#popUp" ).hide();
+
+                }, 3000);
+
 
             })
             .listen('DeleteGroup', (group)=>{
 
                  $("#group"+group.id).remove()
-                 $("#popUp2").text('Group '+group.name+ " deleted !");
+                 $("#popUp2").text('Group "'+group.name+ '" deleted !');
 
                  $( "#popUp2" ).show();
 
