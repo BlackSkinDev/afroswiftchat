@@ -19,7 +19,7 @@
                         </div>
                     @endif
                     <div class="alert alert-danger" id="popUp2" style="width: 50%;display: none"></div>
-                     <div class="alert alert-success" id="popUp" style="display: none;"></
+                     <div class="alert alert-success" id="popUp" style="display: none;"></div>
                     
                     <div id="groups" >
                         @if( count($groups)<1)
