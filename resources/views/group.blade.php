@@ -27,11 +27,25 @@
             <div style="margin-top:20px;">
             <textarea  onkeyup="this.style.height='auto';this.style.height=(this.scrollHeight)+'px'" class="form-control" placeholder="Send Message.." id="messageBox" v-model="messageBox" @keydown="sendTypingEvent"></textarea>
 
-                 <button class="btn btn-success" style="margin-top:10px" v-on:click="
-        sendMessage">Send</button>
-        <div id="error" style="color: red;display: none">Message cannot be empty</div>
+                <div class="d-flex">
+                    <span>
+                        <i class="fa fa-send fa-2x" style="margin-top:10px;color: white" v-on:click="
+                        sendMessage"></i>
+                        <div id="error" style="color: red;display: none">Message cannot be empty</div>       
+                    </span>
+                    <span class="ml-3 mt-2" style="color:white">
+                        <form enctype="multipart/form-data" method="post">   @csrf                     
+                          <label for="file">
+                          <input type="file" id="file" style="display: none" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">
+                          <i class="fa fa-camera fa-2x mt-1" id="clip"></i>
+                        </label>
+                        </form>
+                        
 
-
+                    </span>
+                </div>
+                 
+             
             </div>
 
         </div>
@@ -90,6 +104,56 @@
 @section('scripts')
 <script src="{{ asset('js/app.js') }}" ></script>
 <script>
+ $(document).ready(function(){
+    
+     $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $("#file").change(function(){
+      var formData = new FormData();
+      var file = document.getElementById("file").files[0];
+      formData.append("file", file);
+      
+        $.ajax({
+            type: "POST",
+            url: '/send/{{$group->id}}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+               data=JSON.parse(response)
+                console.log(data)
+               $("#messages").append(
+                    '<div class="message mt-3 me" id="new' +data.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg"></div></div>');
+
+                var mymsgspan= $("#mymsg").text()
+                    newmsgtotal= Number(mymsgspan)+1
+                    $("#mymsg").text(newmsgtotal)
+
+
+                    var mymsg= $("#totalmsg").text()
+                    totalmsg= Number(mymsg)+1
+                    $("#totalmsg").text(totalmsg)
+
+
+                    // scroll to last message
+                      var myDiv = document.getElementById("mainBody");
+                      myDiv.scrollTop = myDiv.scrollHeight;
+
+               
+            },
+            error: function (error) {
+                
+            }
+        });
+
+  });  
+
+ })
+  
 
     function linkify(text) {
         var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -127,7 +191,8 @@ const app = new Vue({
         newMessage:{},
         typing:'',
         activeUser:false,
-        typingTimer:false
+        typingTimer:false,
+        token:document.head.querySelector('meta[name="csrf-token"]').content
     },
     mounted(){
         this.getMessages()
@@ -152,14 +217,32 @@ const app = new Vue({
                         for (let j=0; j< dateMessages.length;j++){
                                 
                             if (this.LoggedInUser.id == dateMessages[j].user.id) {
-                                $("#messages").append(
+                                if (dateMessages[j].content==null) {
+
+                                      $("#messages").append(
+                                    '<div class="message mt-3 me"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg"></div></div>');
+
+                                }
+                                else{
+                                   $("#messages").append(
                                 '<div class="message mt-3 me "><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box2"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
+                                }
+                                
                             }
                             else{
                                 var color = colors[Math.floor(Math.random() * colors.length)];
 
-                                $("#messages").append(
+                                if (dateMessages[j].content==null) {
+                                        $("#messages").append(
+                                    '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg"></div></div>');
+
+                                }
+                                else{
+                                    $("#messages").append(
                                 '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span> <span style="color: #F0FFF0;font-size:12px;margin-left:25px"> '+dateMessages[j].created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
+                                
+                                }
+
                                 
                             }
                             $("#messages").append("<div class='mt-2'></div>")
@@ -221,9 +304,18 @@ const app = new Vue({
             .listen('NewMessage', (message)=>{
                 const colors= ['purple','tomato','yellow','blue','pink']
                   var color = colors[Math.floor(Math.random() * colors.length)];
-                  $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
 
+                   if (message.content==null) {
+                      $("#messages").append(
+                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box3"><img src="'+message.image+'" class="msg"></div></div>');
+
+                   }
+                   else{
+                      $("#messages").append(
+                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
+  
+                   }
+                  
                     var mymsgspan= $("#totalmsg").text()
                     newmsgtotal= Number(mymsgspan)+1
                     $("#totalmsg").text(newmsgtotal)
@@ -268,7 +360,7 @@ const app = new Vue({
 
             //calling send message endpoint
 
-              axios.post(`/group/${this.group.id}`, {
+              axios.post(`/send/${this.group.id}`, {
                  content:this.messageBox
               })
               .then( (response)=>{
@@ -279,7 +371,7 @@ const app = new Vue({
 
                  this.messageBox=''
 
-
+                 console.log(this.newMessage)
 
                  $("#messages").append(
                     '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px">'+linkify(this.newMessage.content)+'</span></div></div>');

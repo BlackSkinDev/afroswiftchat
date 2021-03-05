@@ -34,6 +34,7 @@ class Message extends Model
         'content',
         'group_id',
         'user_id',
+        'image',
     ];
 
     protected $dates = [

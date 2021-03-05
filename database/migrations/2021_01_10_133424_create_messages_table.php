@@ -16,7 +16,8 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->text('content');
+            $table->text('content')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('group_id');// foreign key
             $table->foreign('group_id')->references('id')
             ->on('groups')->onDelete('cascade');
