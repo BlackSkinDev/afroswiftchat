@@ -43,7 +43,7 @@
 
 
 
-
+/*
 @media only screen 
         and (device-width:375px)
         and (device-height:667px)
@@ -54,7 +54,7 @@
           }
        
       }
-
+*/
 
 @media only screen 
         and (device-width:375px)
@@ -77,8 +77,15 @@
 
       .me{
     		position: relative;
-    		left: 160px;
-} 
+    		left: 130px;
+      }
+
+      .box3{
+        width: 65%;
+      }
+
+
+
 }
 
 

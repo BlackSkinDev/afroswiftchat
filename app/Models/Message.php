@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\Group;
-class Message extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+class Message extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
 
 
@@ -29,6 +33,9 @@ class Message extends Model
            
      }
 
+     public function getImageAttribute(){
+        return (empty($this->getMedia()[0])) ? null : $this->getMedia()[0]->getUrl();
+    }
 
     protected $fillable = [
         'content',

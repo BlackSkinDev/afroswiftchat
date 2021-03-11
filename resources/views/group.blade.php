@@ -125,9 +125,11 @@
             processData: false,
             success: function (response) {
                data=JSON.parse(response)
-                console.log(data)
+               
+               console.log(data.image)
+
                $("#messages").append(
-                    '<div class="message mt-3 me" id="new' +data.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg"></div></div>');
+                    '<div class="message mt-3 me" id="new' +data.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg mt-2"></div></div>');
 
                 var mymsgspan= $("#mymsg").text()
                     newmsgtotal= Number(mymsgspan)+1
@@ -206,6 +208,8 @@ const app = new Vue({
 
                    this.messages=response.data
 
+                   console.log(this.messages)
+
                    for (let i = 0; i < Object.keys(this.messages).length; i++) {
 
                         const messageDate= Object.keys(this.messages)[i];
@@ -234,7 +238,7 @@ const app = new Vue({
 
                                 if (dateMessages[j].content==null) {
                                         $("#messages").append(
-                                    '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg"></div></div>');
+                                    '<div class="message mt-3"><span style="color:'+color+'">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg mt-2"></div></div>');
 
                                 }
                                 else{
@@ -307,12 +311,12 @@ const app = new Vue({
 
                    if (message.content==null) {
                       $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box3"><img src="'+message.image+'" class="msg"></div></div>');
+                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box3"><img src="'+message.image+'" class="msg mt-2"></div></div>');
 
                    }
                    else{
                       $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
+                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box1"><span style="font-size:12px" class="mt-2">'+linkify(message.content)+'</span></div></div>');
   
                    }
                   
@@ -371,10 +375,10 @@ const app = new Vue({
 
                  this.messageBox=''
 
-                 console.log(this.newMessage)
+                 console.log(this.newMessage.content)
 
                  $("#messages").append(
-                    '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px">'+linkify(this.newMessage.content)+'</span></div></div>');
+                    '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px" class="mt-2">'+linkify(this.newMessage.content)+'</span></div></div>');
                   
                     var mymsgspan= $("#mymsg").text()
                     newmsgtotal= Number(mymsgspan)+1
