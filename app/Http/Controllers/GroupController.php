@@ -95,12 +95,12 @@ class GroupController extends Controller
         }
 
         
-            // $NewMessage = Message::where('id', $message->id)->first();
+            $NewMessage = Message::where('id', $message->id)->first();
 
 
-            // broadcast(new NewMessage($NewMessage))->toOthers();
+            broadcast(new NewMessage($NewMessage))->toOthers();
 
-            // return $NewMessage->toJson();
+            return $NewMessage->toJson();
 
 
     }
