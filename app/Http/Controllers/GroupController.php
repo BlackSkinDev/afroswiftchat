@@ -68,16 +68,16 @@ class GroupController extends Controller
     public function sendMessage(Request $request,Group $group){
 
         if ($request->file('file')) {
-              $image= request('file');
-              $imagePath= "chats".time().".".$image->getClientOriginalExtension();
-              $fullPath= url('/').'/storage/chats/'.$imagePath;
-              $image->storeAs('public/chats',$imagePath);
+              // $image= request('file');
+              // $imagePath= "chats".time().".".$image->getClientOriginalExtension();
+              // $fullPath= url('/').'/storage/chats/'.$imagePath;
+              // $image->storeAs('public/chats',$imagePath);
               
-              //$path = Storage::disk('s3')->put('chats/pics', $request->file);
+              $path = Storage::disk('s3')->put('chats/pics', $request->file);
                
               $message = $group->messages()->create([
 
-                 'image' => $fullPath,
+                 'image' => $path,
 
                  'user_id' => Auth::user()->id
 
@@ -95,12 +95,12 @@ class GroupController extends Controller
         }
 
         
-            $NewMessage = Message::where('id', $message->id)->first();
+            // $NewMessage = Message::where('id', $message->id)->first();
 
 
-            broadcast(new NewMessage($NewMessage))->toOthers();
+            // broadcast(new NewMessage($NewMessage))->toOthers();
 
-            return $NewMessage->toJson();
+            // return $NewMessage->toJson();
 
 
     }
