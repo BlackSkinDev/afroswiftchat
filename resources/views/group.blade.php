@@ -106,6 +106,12 @@
 <script>
 
 
+  $(document).ready(function(){
+        var myDiv = document.getElementById("mainBody");
+                      myDiv.scrollTop = myDiv.scrollHeight;
+  });
+
+
  $(document).ready(function(){
     
      $.ajaxSetup({
