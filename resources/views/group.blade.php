@@ -104,13 +104,19 @@
 @section('scripts')
 <script src="{{ asset('js/app.js') }}" ></script>
 <script>
+
+
  $(document).ready(function(){
     
      $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+
+        
     });
+
+
 
     $("#file").change(function(){
       var formData = new FormData();
@@ -385,8 +391,7 @@ const app = new Vue({
 
 
                     // scroll to last message
-                      var myDiv = document.getElementById("mainBody");
-                      myDiv.scrollTop = myDiv.scrollHeight;
+                     
 
 
 
