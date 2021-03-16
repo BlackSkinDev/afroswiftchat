@@ -15,13 +15,7 @@ class Message extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->sharpen(10);
-    }
+    
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -41,7 +35,7 @@ class Message extends Model implements HasMedia
      }
 
      public function getImageAttribute(){
-        return (empty($this->getMedia()[0])) ? null : $this->getMedia()[0]->getUrl();
+        return $this->getFirstMediaUrl();
     }
 
     protected $fillable = [

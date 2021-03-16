@@ -126,8 +126,7 @@
             success: function (response) {
                data=JSON.parse(response)
                
-               console.log(data.image)
-
+               
                $("#messages").append(
                     '<div class="message mt-3 me" id="new' +data.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg mt-2"></div></div>');
 
@@ -208,8 +207,7 @@ const app = new Vue({
 
                    this.messages=response.data
 
-                   console.log(this.messages)
-
+                
                    for (let i = 0; i < Object.keys(this.messages).length; i++) {
 
                         const messageDate= Object.keys(this.messages)[i];
@@ -265,7 +263,6 @@ const app = new Vue({
         joinRoom(){
            Echo.join('chatroom.'+this.group.id)
              .here((user) => {
-                console.log("all users")
                  for (var i = 0; i < user.length; i++) {
                     if (this.LoggedInUser.id==user[i].id) {
                         $("#users").append('<p id='+user[i].id+'><i class="fa fa-user fa-1x"><b class="ml-2">'+user[i].name+'</b></p>');
@@ -278,7 +275,7 @@ const app = new Vue({
 
              })
             .joining((user) => {
-                console.log("persin join")
+               
                 $("#users").append('<p id='+user.id+'>'+user.name+'</p>');
 
                 $("#popUp").text(user.name+ " Joined");
@@ -292,7 +289,6 @@ const app = new Vue({
                 }, 3000);
             })
             .leaving((user) => {
-                console.log("persin leave")
                 $("#"+user.id).remove();
                 $("#popUp2").text(user.name+ " Left");
 
@@ -333,7 +329,6 @@ const app = new Vue({
 
             .listenForWhisper('typing', (e) => {
 
-                //console.log(e.name)
                 this.activeUser=e.name
 
 
@@ -375,7 +370,6 @@ const app = new Vue({
 
                  this.messageBox=''
 
-                 console.log(this.newMessage.content)
 
                  $("#messages").append(
                     '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px" class="mt-2">'+linkify(this.newMessage.content)+'</span></div></div>');
