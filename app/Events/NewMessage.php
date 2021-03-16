@@ -42,6 +42,7 @@ class NewMessage implements ShouldBroadcast
       return [
         'content' => $this->message->content,
         'created_at' => $this->message->created_at,
+        'image'=>$this->message->image,
         'user' => [
           'name' => $this->message->user->name
          ]

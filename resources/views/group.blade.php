@@ -104,13 +104,25 @@
 @section('scripts')
 <script src="{{ asset('js/app.js') }}" ></script>
 <script>
+
+
+  $(document).ready(function(){
+        var myDiv = document.getElementById("mainBody");
+                      myDiv.scrollTop = myDiv.scrollHeight;
+  });
+
+
  $(document).ready(function(){
     
      $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+
+        
     });
+
+
 
     $("#file").change(function(){
       var formData = new FormData();
@@ -125,9 +137,10 @@
             processData: false,
             success: function (response) {
                data=JSON.parse(response)
-                console.log(data)
+               
+               
                $("#messages").append(
-                    '<div class="message mt-3 me" id="new' +data.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg"></div></div>');
+                    '<div class="message mt-3 me" id="new' +data.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg mt-2"></div></div>');
 
                 var mymsgspan= $("#mymsg").text()
                     newmsgtotal= Number(mymsgspan)+1
@@ -206,6 +219,7 @@ const app = new Vue({
 
                    this.messages=response.data
 
+                
                    for (let i = 0; i < Object.keys(this.messages).length; i++) {
 
                         const messageDate= Object.keys(this.messages)[i];
@@ -234,7 +248,7 @@ const app = new Vue({
 
                                 if (dateMessages[j].content==null) {
                                         $("#messages").append(
-                                    '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg"></div></div>');
+                                    '<div class="message mt-3"><span style="color:'+color+'">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+dateMessages[j].created_at+'</span><div class="box31"> <img src="'+dateMessages[j].image+'" class="msg mt-2"></div></div>');
 
                                 }
                                 else{
@@ -261,7 +275,6 @@ const app = new Vue({
         joinRoom(){
            Echo.join('chatroom.'+this.group.id)
              .here((user) => {
-                console.log("all users")
                  for (var i = 0; i < user.length; i++) {
                     if (this.LoggedInUser.id==user[i].id) {
                         $("#users").append('<p id='+user[i].id+'><i class="fa fa-user fa-1x"><b class="ml-2">'+user[i].name+'</b></p>');
@@ -274,7 +287,7 @@ const app = new Vue({
 
              })
             .joining((user) => {
-                console.log("persin join")
+               
                 $("#users").append('<p id='+user.id+'>'+user.name+'</p>');
 
                 $("#popUp").text(user.name+ " Joined");
@@ -288,7 +301,6 @@ const app = new Vue({
                 }, 3000);
             })
             .leaving((user) => {
-                console.log("persin leave")
                 $("#"+user.id).remove();
                 $("#popUp2").text(user.name+ " Left");
 
@@ -307,12 +319,12 @@ const app = new Vue({
 
                    if (message.content==null) {
                       $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box3"><img src="'+message.image+'" class="msg"></div></div>');
+                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box31"><img src="'+message.image+'" class="msg mt-2"></div></div>');
 
                    }
                    else{
                       $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'" class="ml-2">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px""> '+message.created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(message.content)+'</span></div></div>');
+                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box1"><span style="font-size:12px" class="mt-2">'+linkify(message.content)+'</span></div></div>');
   
                    }
                   
@@ -329,7 +341,6 @@ const app = new Vue({
 
             .listenForWhisper('typing', (e) => {
 
-                //console.log(e.name)
                 this.activeUser=e.name
 
 
@@ -371,10 +382,9 @@ const app = new Vue({
 
                  this.messageBox=''
 
-                 console.log(this.newMessage)
 
                  $("#messages").append(
-                    '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px">'+linkify(this.newMessage.content)+'</span></div></div>');
+                    '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px" class="mt-2">'+linkify(this.newMessage.content)+'</span></div></div>');
                   
                     var mymsgspan= $("#mymsg").text()
                     newmsgtotal= Number(mymsgspan)+1
@@ -387,8 +397,7 @@ const app = new Vue({
 
 
                     // scroll to last message
-                      var myDiv = document.getElementById("mainBody");
-                      myDiv.scrollTop = myDiv.scrollHeight;
+                     
 
 
 

@@ -58,30 +58,31 @@ class GroupController extends Controller
     public function getMessages(Group $group){
         $messages= $group->messages()->with('user')->orderBy('updated_at')->get()->groupBy(function($data){
             return Carbon::parse($data->updated_at)->format('d, F Y');
-            //return Carbon::parse($data->created_at)->format('M Y');
-
+           
         });
+
         return $messages->toJson();
-       //return response()->json($group->messages()->with('user')->get());
     }
 
     public function sendMessage(Request $request,Group $group){
 
+        
         if ($request->file('file')) {
-              $image= request('file');
-              $imagePath= "chats".time().".".$image->getClientOriginalExtension();
-              $fullPath= url('/').'/storage/chats/'.$imagePath;
-              $image->storeAs('public/chats',$imagePath);
-              
-              //$path = Storage::disk('s3')->put('chats/pics', $request->file);
                
               $message = $group->messages()->create([
 
-                 'image' => $fullPath,
-
+                
                  'user_id' => Auth::user()->id
 
              ]);
+
+
+              if($request['file']){
+                 $message->addMediaFromRequest('file')->toMediaCollection();
+              }
+
+
+
         }
         else{
             $message = $group->messages()->create([
@@ -102,6 +103,8 @@ class GroupController extends Controller
 
             return $NewMessage->toJson();
 
+
+           
 
     }
 

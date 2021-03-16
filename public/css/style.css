@@ -19,13 +19,18 @@
 
 .box3{
    width: 40%;
-  /*height: 56px;
-  width: 40%;
-  background-color: #F5F5DC;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  padding:7px;*/
+   background-color: #F5F5DC;
+   border-radius: 10px;
+   padding: 15px;
 }
+
+.box31{
+   width: 40%;
+   background-color: #F0F8FF;
+   border-radius: 10px;
+   padding: 15px;
+}
+
 
 .msg{
   width:100%;
@@ -43,7 +48,7 @@
 
 
 
-
+/*
 @media only screen 
         and (device-width:375px)
         and (device-height:667px)
@@ -54,7 +59,7 @@
           }
        
       }
-
+*/
 
 @media only screen 
         and (device-width:375px)
@@ -77,14 +82,21 @@
 
       .me{
     		position: relative;
-    		left: 160px;
-} 
+    		left: 120px;
+      }
+
+      .box3{
+        width: 65%;
+      }
+
+
+      .box31{
+        width: 65%;
+      }
+
+
+
+
 }
 
 
-
-
-.image{
-    width: 10px;
-    height: 10px;
-}
