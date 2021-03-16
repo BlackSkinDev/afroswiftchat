@@ -236,7 +236,7 @@ const app = new Vue({
 
                                 if (dateMessages[j].content==null) {
                                         $("#messages").append(
-                                    '<div class="message mt-3"><span style="color:'+color+'">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+dateMessages[j].created_at+'</span><div class="box3"> <img src="'+dateMessages[j].image+'" class="msg mt-2"></div></div>');
+                                    '<div class="message mt-3"><span style="color:'+color+'">'+dateMessages[j].user.name+'</span><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+dateMessages[j].created_at+'</span><div class="box31"> <img src="'+dateMessages[j].image+'" class="msg mt-2"></div></div>');
 
                                 }
                                 else{
@@ -307,7 +307,7 @@ const app = new Vue({
 
                    if (message.content==null) {
                       $("#messages").append(
-                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box3"><img src="'+message.image+'" class="msg mt-2"></div></div>');
+                    '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box31"><img src="'+message.image+'" class="msg mt-2"></div></div>');
 
                    }
                    else{
