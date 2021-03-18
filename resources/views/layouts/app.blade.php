@@ -33,7 +33,7 @@
             <div class="container">
                   <a class="navbar-brand d-flex" href="{{ url('/') }}">
                     <div>
-                        <!-- <img src="/img/logo.png" height="60" width="140" class="pr-3" style="border-right:1px solid #333"> -->
+                        <img src="/img/swiftchatlogo.png" height="30" width="110" class="pr-3" style="border-right:1px solid #333">
                     </div>
                     <div class="pl-3 pt-1 font-weight-bold">Afro<font color="blue">Swift</font><font color="red">Chat</font></div>
                 </a>

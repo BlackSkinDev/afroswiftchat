@@ -32,7 +32,6 @@ class GroupController extends Controller
 
         event(new NewGroupCreated($group));
 
-        //Session::flash('message','Group Created');
         return back();
     }
 

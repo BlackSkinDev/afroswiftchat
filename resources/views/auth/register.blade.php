@@ -39,10 +39,12 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
                         <div class="authentication-form mx-auto">
-                            <div class="logo-centered">
-                                <a href="#"><h3>SwiftChat</h3></a>
-                            </div>
-                            <p>Happy to see you again!</p>
+                                <a href="#">
+                                    <div  style="margin-right: 70px">
+                                        <img src="/img/swiftchatlogo.png" height="80" width="200" class="pr-3">
+                                    </div>
+                                </a>
+                            <p style="margin-top: 40px">Happy to see you again!</p>
                            <form method="POST" action="{{ route('register') }}">
                         @csrf
 
