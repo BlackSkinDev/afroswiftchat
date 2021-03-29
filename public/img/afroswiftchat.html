@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)http://localhost:8000/home -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="mZducbCIeIwEvwrwUFUjp3oEtLeeDzWJYC9Jqjic">
+
+    <title>afroswiftchat</title>
+
+    <!-- Scripts -->
+    
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="http://fonts.gstatic.com/">
+    <link href="./afroswiftchat_files/css" rel="stylesheet">
+    <link rel="stylesheet" href="./afroswiftchat_files/animate.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./afroswiftchat_files/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./afroswiftchat_files/bootstrap.min.css">
+    <!-- Styles -->
+    <link href="./afroswiftchat_files/app.css" rel="stylesheet">
+    
+  <link href="./afroswiftchat_files/style.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div id="app"><nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"><div class="container"><a href="http://localhost:8000/" class="navbar-brand d-flex"><div><img src="./afroswiftchat_files/swiftchatlogo.png" height="30" width="110" class="pr-3" style="border-right: 1px solid rgb(51, 51, 51);"></div> <div class="pl-3 pt-1 font-weight-bold">Afro<font color="blue">Swift</font><font color="red">Chat</font></div></a> <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button> <div id="navbarSupportedContent" class="collapse navbar-collapse"><ul class="navbar-nav mr-auto"></ul> <ul class="navbar-nav ml-auto"><li class="nav-item dropdown"><a id="navbarDropdown" class="nav-link dropdown-toggle" href="http://localhost:8000/home#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Azeez Afeez
+                                </a> <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right"><a href="http://localhost:8000/logout" onclick="event.preventDefault();
+                                                     document.getElementById(&#39;logout-form&#39;).submit();" class="dropdown-item">
+                                        Logout
+                                    </a> <form id="logout-form" action="http://localhost:8000/logout" method="POST" class="d-none"><input type="hidden" name="_token" value="mZducbCIeIwEvwrwUFUjp3oEtLeeDzWJYC9Jqjic"></form> <a href="http://localhost:8000/create" class="dropdown-item">Create Chat Room</a></div></li></ul></div></div></nav> <main class="py-4"><div class="container"><h3 style="color: white;">Welcome to SwiftChat....Over 1 users</h3> <div class="row justify-content-center mt-5"><div class="col-md-6"><div class="card"><div class="card-header">Chat Rooms Available on SwiftChat</div> <div id="all" class="card-body" style="max-height: 450px; overflow-y: auto;"><div id="popUp2" class="alert alert-danger" style="width: 50%; display: none;"></div> <div id="popUp" class="alert alert-success" style="display: none;"></div> <div id="groups"><div id="group1"><div class="row"><div class="col-md-6"><span>Accreditation</span></div> <div class="col-md-6"><span><a href="http://localhost:8000/join/1"><button class="badge badge-success">Enter Group</button></a></span> <a href="http://localhost:8000/home#" style="color: black;"><span class="ml-5"><i class="fa fa-remove">&nbsp;<b>Remove</b></i></span></a></div></div> <hr></div></div></div></div></div> <div class="col-md-6 col2"><div class="card"><div class="card-header"><b>Azeez Afeez</b>, Create chat room and invite friend via the link</div> <div class="card-body"><form method="POST" action="http://localhost:8000/create"><input type="hidden" name="_token" value="mZducbCIeIwEvwrwUFUjp3oEtLeeDzWJYC9Jqjic"> <div class="form-group row"><label for="email" class="col-md-4 col-form-label text-md-right">Group Subject</label> <div class="col-md-6"><input id="subject" type="subject" name="subject" value="" autocomplete="subject" autofocus="autofocus" class="form-control "></div></div> <div class="form-group row mb-0"><div class="col-md-8 offset-md-4"><button type="submit" class="btn btn-primary">
+                                    Create Chat room
+                                </button></div></div></form></div></div></div></div></div></main></div>
+ <script src="./afroswiftchat_files/app.js.download"></script>
+<script>
+
+const app = new Vue({
+    el: '#app',
+    data:{
+        groups:[{"id":1,"user_id":1,"name":"Accreditation","created_at":"2021-03-12T07:47:39.000000Z","updated_at":"2021-03-12T07:47:39.000000Z"}],
+        group:{},
+    },
+    mounted(){
+
+        this.listen()
+        this.scroll()
+    },
+    methods:{
+
+        listen(){
+          Echo.private('new-group')
+            .listen('NewGroupCreated', (group)=>{
+
+                $("#noGroup").hide()
+
+               $("#groups").append(
+                '<div id="group' +group.id+ '"><div class="row"><div class="col-md-6"><span>'+ group.name+ '</span></div><div class="col-md-6"><span><a href="/join/'+group.id+'"><button class="badge badge-success">Enter Group</button></a></span></div></div><hr></div>')
+
+               $("#popUp").text('Group "' +group.name+ '" Created');
+
+                $( "#popUp" ).show();
+
+                setTimeout(function() {
+
+                    $( "#popUp" ).hide();
+
+                }, 3000);
+
+
+            })
+            .listen('DeleteGroup', (group)=>{
+
+                 $("#group"+group.id).remove()
+                 $("#popUp2").text('Group "'+group.name+ '" deleted !');
+
+                 $( "#popUp2" ).show();
+
+                    setTimeout(function() {
+
+                $( "#popUp2" ).hide();
+
+                }, 3000);
+
+                 
+            })
+        },
+
+        deleteGroup(x){
+            this.group=x
+            axios.get(`/deletegroup/${this.group}`)
+
+                .then( (response)=>{
+                   
+
+                })
+                .catch( function (error){
+                    console.log(error);
+                })
+
+        },
+
+        scroll(){
+            var myDiv = document.getElementById("all");
+            myDiv.scrollTop = myDiv.scrollHeight;
+        }
+
+    }
+});
+
+</script>
+
+
+
+
+
+</body></html>
