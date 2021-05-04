@@ -114,6 +114,17 @@
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem" />
       <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/vendor/league/glide" />
+      <path value="$PROJECT_DIR$/vendor/league/flysystem-aws-s3-v3" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image-optimizer" />
+      <path value="$PROJECT_DIR$/vendor/spatie/temporary-directory" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-medialibrary" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image" />
+      <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

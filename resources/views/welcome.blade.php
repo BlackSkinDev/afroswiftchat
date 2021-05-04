@@ -18,8 +18,8 @@
         <style>
             body {
                 font-family: 'Nunito';
-            background:url('/img/bg2.jpg');
-            background-size: cover;
+            background-image:url('../img/bg3.jpg') !important;
+           
         
             }
             a{
