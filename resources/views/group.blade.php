@@ -398,6 +398,8 @@ const app = new Vue({
 
                     // scroll to last message
                      
+                       var myDiv = document.getElementById("mainBody");
+                  myDiv.scrollTop = myDiv.scrollHeight;
 
 
 

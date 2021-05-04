@@ -34,8 +34,8 @@
                             <div class="lavalite-overlay"></div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
-                        <div class="authentication-form mx-auto">
+                    <div class="col-xl-4 col-lg-6 col-md-7" style="background-image: url('../img/bg3.jpg')">
+                        <div class="authentication-form mx-auto" >
                            <a href="#">
                                     <div  style="margin-right: 70px">
                                         <img src="/img/swiftchatlogo.png" height="80" width="200" class="pr-3">

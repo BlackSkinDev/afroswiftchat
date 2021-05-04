@@ -72,8 +72,8 @@
 
 
        body{
-        background-image: url('../img/bash.jpg');
-       }  
+        background-image: url('../img/bg3.jpg');
+       }
 
 @media only screen and (max-width: 768px) {
  	 .col2{
