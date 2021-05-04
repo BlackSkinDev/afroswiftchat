@@ -6,7 +6,7 @@
 This project was built with Laravel and MySQL.
 
 ## Running the APP
-To run the API, you must have:
+To run the APP, you must have:
 - **PHP** (https://www.php.net/downloads)
 - **MySQL** (https://dev.mysql.com/downloads/installer)
 Create an `.env` file using the command. You can use this config or change it for your purposes.
