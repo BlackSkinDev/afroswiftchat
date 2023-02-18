@@ -29,23 +29,23 @@
 
                 <div class="d-flex">
                     <span>
-                        <i class="fa fa-send fa-2x" style="margin-top:10px;color: white" v-on:click="
+                        <i class="fa fa-send fa-2x"  id="send-button" style="margin-top:10px;color: white;cursor:pointer" v-on:click="
                         sendMessage"></i>
-                        <div id="error" style="color: red;display: none">Message cannot be empty</div>       
+                        <div id="error" style="color: red;display: none">Message cannot be empty</div>
                     </span>
                     <span class="ml-3 mt-2" style="color:white">
-                        <form enctype="multipart/form-data" method="post">   @csrf                     
+                        <form enctype="multipart/form-data" method="post">   @csrf
                           <label for="file">
                           <input type="file" id="file" style="display: none" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple="" data-original-title="upload photos">
                           <i class="fa fa-camera fa-2x mt-1" id="clip"></i>
                         </label>
                         </form>
-                        
+
 
                     </span>
                 </div>
-                 
-             
+
+
             </div>
 
         </div>
@@ -65,7 +65,6 @@
                         <input type="text" class="form-control" id="link" value="{{url()->current()}}" aria-describedby="basic-addon2" disabled>
                         <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" onclick="copy('link')" title="Copy Video Link">Link</button>
-
                         </div>
                 </div>
             </div>
@@ -83,7 +82,7 @@
         </div>
           <ul class="list-group list-group-flush">
              <li class="list-group-item"><b title="Total messages sent to this group">Group Creator</b>:<span> {{$group->user->name}}</span></li>
-           
+
             <li class="list-group-item">Date created: {{ date("jS F Y",strtotime($group->created_at))}}</li>
             <li class="list-group-item"><b title="Total messages sent to this group">Total Messages</b>:<span id="totalmsg"> {{$group->messages->count()}}</span></li>
             <li class="list-group-item"><b title="Messages you have sent to this group">Messages sent</b>: <span id="mymsg">{{Auth::user()->TotalMessageSent($group->id)}}</li>
@@ -113,13 +112,13 @@
 
 
  $(document).ready(function(){
-    
+
      $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
 
-        
+
     });
 
 
@@ -128,7 +127,7 @@
       var formData = new FormData();
       var file = document.getElementById("file").files[0];
       formData.append("file", file);
-      
+
         $.ajax({
             type: "POST",
             url: '/send/{{$group->id}}',
@@ -137,8 +136,8 @@
             processData: false,
             success: function (response) {
                data=JSON.parse(response)
-               
-               
+
+
                $("#messages").append(
                     '<div class="message mt-3 me" id="new' +data.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+data.created_at+'</span><div class="box3"> <img src="'+data.image+'" class="msg mt-2"></div></div>');
 
@@ -156,17 +155,17 @@
                       var myDiv = document.getElementById("mainBody");
                       myDiv.scrollTop = myDiv.scrollHeight;
 
-               
+
             },
             error: function (error) {
-                
+
             }
         });
 
-  });  
+  });
 
  })
-  
+
 
     function linkify(text) {
         var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -181,7 +180,7 @@
               aux.focus();
               document.execCommand("copy");
               document.body.removeChild(aux);
-               
+
                $("#popUp3").text("Link Copied");
 
                 $( "#popUp3" ).show();
@@ -210,6 +209,9 @@ const app = new Vue({
     mounted(){
         this.getMessages()
         this.joinRoom()
+        var myDiv = document.getElementById("mainBody");
+        myDiv.scrollTop = myDiv.scrollHeight;
+
     },
     methods:{
         getMessages(){
@@ -219,7 +221,7 @@ const app = new Vue({
 
                    this.messages=response.data
 
-                
+
                    for (let i = 0; i < Object.keys(this.messages).length; i++) {
 
                         const messageDate= Object.keys(this.messages)[i];
@@ -229,7 +231,7 @@ const app = new Vue({
                         $("#messages").append('<center><span style="font-size:12px;color:white"><b>'+ messageDate +'</b></span></span')
 
                         for (let j=0; j< dateMessages.length;j++){
-                                
+
                             if (this.LoggedInUser.id == dateMessages[j].user.id) {
                                 if (dateMessages[j].content==null) {
 
@@ -241,7 +243,7 @@ const app = new Vue({
                                    $("#messages").append(
                                 '<div class="message mt-3 me "><span class="ml-2"></span> <span style="color: #F0FFF0;font-size:12px"> '+dateMessages[j].created_at+'</span><div class="box2"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
                                 }
-                                
+
                             }
                             else{
                                 var color = colors[Math.floor(Math.random() * colors.length)];
@@ -254,15 +256,15 @@ const app = new Vue({
                                 else{
                                     $("#messages").append(
                                 '<div class="message mt-3"><span style="color:'+color+'" class="ml-2">'+dateMessages[j].user.name+'</span> <span style="color: #F0FFF0;font-size:12px;margin-left:25px"> '+dateMessages[j].created_at+'</span><div class="box1"><span style="font-size:12px">'+linkify(dateMessages[j].content)+'</span></div></div>');
-                                
+
                                 }
 
-                                
+
                             }
                             $("#messages").append("<div class='mt-2'></div>")
-                        } 
+                        }
 		            }
-                  
+
 
 
                 })
@@ -287,7 +289,7 @@ const app = new Vue({
 
              })
             .joining((user) => {
-               
+                console.log("Joooooooined!!!!!!!!")
                 $("#users").append('<p id='+user.id+'>'+user.name+'</p>');
 
                 $("#popUp").text(user.name+ " Joined");
@@ -325,9 +327,9 @@ const app = new Vue({
                    else{
                       $("#messages").append(
                     '<div class="message mt-4"><span style="color:'+color+'">'+message.user.name+'</span> <span style="color: #F0FFF0;margin-left: 40px;"font-size:12px;class="ml-3"> '+message.created_at+'</span><div class="box1"><span style="font-size:12px" class="mt-2">'+linkify(message.content)+'</span></div></div>');
-  
+
                    }
-                  
+
                     var mymsgspan= $("#totalmsg").text()
                     newmsgtotal= Number(mymsgspan)+1
                     $("#totalmsg").text(newmsgtotal)
@@ -368,6 +370,8 @@ const app = new Vue({
                 }, 2000);
             }
             else{
+                // disable send button
+                document.getElementById('send-button').disabled = true;
 
             //calling send message endpoint
 
@@ -382,10 +386,12 @@ const app = new Vue({
 
                  this.messageBox=''
 
+                  // enable send button
+                  document.getElementById('send-button').disabled = false;
 
                  $("#messages").append(
                     '<div class="message mt-3 me" id="new' +this.newMessage.id+'"><span style="color: #F0FFF0;font-size:12px" class="ml-3"> '+this.newMessage.created_at+'</span><div class="box2"><span style= "font-size:12px" class="mt-2">'+linkify(this.newMessage.content)+'</span></div></div>');
-                  
+
                     var mymsgspan= $("#mymsg").text()
                     newmsgtotal= Number(mymsgspan)+1
                     $("#mymsg").text(newmsgtotal)
@@ -397,7 +403,7 @@ const app = new Vue({
 
 
                     // scroll to last message
-                     
+
                        var myDiv = document.getElementById("mainBody");
                   myDiv.scrollTop = myDiv.scrollHeight;
 

@@ -20,7 +20,7 @@
                     @endif
                     <div class="alert alert-danger" id="popUp2" style="width: 50%;display: none"></div>
                      <div class="alert alert-success" id="popUp" style="display: none;"></div>
-                    
+
                     <div id="groups" >
                         @if( count($groups)<1)
                             <span id='noGroup'>
@@ -39,7 +39,7 @@
                                     <div class="col-md-6">
                                         <span><a href="{{route('join',$group->id)}}"><button class="badge badge-success">Enter Group</button></a></span>
                                         @can('delete',$group)
-                                        <a href="#" style="color: black"  v-on:click="deleteGroup({{$group->id}})"><span class="ml-5"><i class="fa fa-remove">&nbsp<b>Remove</b></i></span></a>
+                                        <a href="#"  style="color: black"  v-on:click="deleteGroup({{$group->id}})"><span class="ml-5"><i class="fa fa-remove">&nbsp<b>Remove</b></i></span></a>
                                         @endcan
                                     </div>
 
@@ -117,6 +117,7 @@ const app = new Vue({
     methods:{
 
         listen(){
+            console.log("Aye")
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
 
@@ -150,7 +151,7 @@ const app = new Vue({
 
                 }, 3000);
 
-                 
+
             })
         },
 
@@ -159,8 +160,7 @@ const app = new Vue({
             axios.get(`/deletegroup/${this.group}`)
 
                 .then( (response)=>{
-                   
-
+                    $(`#group${this.group}`).remove()
                 })
                 .catch( function (error){
                     console.log(error);

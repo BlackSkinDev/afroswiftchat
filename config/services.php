@@ -33,7 +33,7 @@ return [
      'google' => [
         'client_id' => '376180821931-8jmgvkd5uvj2ilubuuq9jkt9c9ukjcgj.apps.googleusercontent.com',
         'client_secret' => 'SAXsAjDyD12t2_BW-wtnSXO6',
-        'redirect' => 'https://afroswiftchat.herokuapp.com/google/callback',
+        'redirect' => 'http://127.0.0.1:8000/google/callback',
     ],
 
 ];

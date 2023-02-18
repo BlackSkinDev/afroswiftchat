@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-	//Alert::alert('Title', 'Message', 'Type');
     return view('welcome');
 });
 
@@ -41,4 +40,3 @@ Route::get('/login/google', 'Auth\LoginController@redirectToGoogle')->name('goog
 Route::get('google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
- 
