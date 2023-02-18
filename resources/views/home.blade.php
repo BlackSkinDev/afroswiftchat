@@ -117,7 +117,6 @@ const app = new Vue({
     methods:{
 
         listen(){
-            console.log("Aye")
           Echo.private('new-group')
             .listen('NewGroupCreated', (group)=>{
 
